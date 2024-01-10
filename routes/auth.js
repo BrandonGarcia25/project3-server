@@ -11,7 +11,8 @@ const saltRounds = 10;
 
 // POST  /auth/signup
 router.post("/signup", (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { profileImage, firstName, lastName, username, email, password } =
+    req.body;
 
   // Check if the email or password or username is provided as an empty string
   if (!email || !password || !username) {
@@ -48,14 +49,29 @@ router.post("/signup", (req, res, next) => {
 
       // Create a new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      User.create({ email, password: hashedPassword, username })
+      User.create({
+        profileImage,
+        firstName,
+        lastName,
+        username,
+        email,
+        password: hashedPassword,
+      })
         .then((createdUser) => {
           // Deconstruct the newly created user object to omit the password
           // We should never expose passwords publicly
-          const { email, username, photo, _id } = createdUser;
+          const { profileImage, firstName, lastName, username, email, _id } =
+            createdUser;
 
           // Create a new object that doesn't expose the password
-          const payload = { email, username, photo, _id };
+          const payload = {
+            profileImage,
+            firstName,
+            lastName,
+            username,
+            email,
+            _id,
+          };
 
           const authToken = jwt.sign(payload, process.env.SECRET, {
             algorithm: "HS256",

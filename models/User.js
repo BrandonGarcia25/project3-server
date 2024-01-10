@@ -20,6 +20,9 @@ const userSchema = new Schema(
     firstName: String,
     lastName: String,
     bio: String,
+    following: [String],
+    followers: [String],
+    posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
     // posts: relate to Post model
   },
   {
