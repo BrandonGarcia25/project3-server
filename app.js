@@ -8,6 +8,8 @@ var mongoose = require("mongoose");
 
 var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
+var postsRouter = require("./routes/posts"); 
+var locationsRouter = require("./routes/locations"); 
 
 var app = express();
 
@@ -32,6 +34,9 @@ app.use(
 
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+app.use("/posts", postsRouter);
+app.use("/locations", locationsRouter);  
+
 
 mongoose
   .connect(process.env.MONGODB_URI)
