@@ -1,9 +1,9 @@
 const router = require("express").Router();
 
-const User = require("../models/User");
-
 const isAuthenticated = require("../middleware/isAuthenticated");
 const isOwner = require("../middleware/isOwner");
+
+const User = require("../models/User");
 
 router.get("/", (req, res, next) => {
   User.find()
@@ -11,6 +11,19 @@ router.get("/", (req, res, next) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json({ message: "Internal Server Error" });
+    });
+});
+
+router.get("/:userId", (req, res, next) => {
+  User.findById(req.params.userId)
+    .populate("posts")
+    .then((foundUser) => {
+      console.log("Found user ->", foundUser);
+      res.status(200).json(foundUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "User not found" });
     });
 });
 
