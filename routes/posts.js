@@ -58,7 +58,7 @@ router.get("/:postId", isAuthenticated, (req, res) => {
       res.status(200).json(response);
     })
     .catch((err) => {
-      res.status(500).json({ err: "Failed" });
+      res.status(500).json({ err: err });
     });
 });
 
