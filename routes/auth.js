@@ -11,8 +11,18 @@ const saltRounds = 10;
 
 // POST  /auth/signup
 router.post("/signup", (req, res, next) => {
-  const { profileImage, firstName, lastName, username, email, password } =
-    req.body;
+  const {
+    profileImage,
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    bio,
+    following,
+    followers,
+    posts,
+  } = req.body;
 
   // Check if the email or password or username is provided as an empty string
   if (!email || !password || !username) {
@@ -56,21 +66,39 @@ router.post("/signup", (req, res, next) => {
         username,
         email,
         password: hashedPassword,
+        bio,
+        following,
+        followers,
+        posts,
       })
         .then((createdUser) => {
           // Deconstruct the newly created user object to omit the password
           // We should never expose passwords publicly
-          const { profileImage, firstName, lastName, username, email, _id } =
-            createdUser;
-
-          // Create a new object that doesn't expose the password
-          const payload = {
+          const {
+            _id,
             profileImage,
             firstName,
             lastName,
             username,
             email,
+            bio,
+            following,
+            followers,
+            posts,
+          } = createdUser;
+
+          // Create a new object that doesn't expose the password
+          const payload = {
             _id,
+            profileImage,
+            firstName,
+            lastName,
+            username,
+            email,
+            bio,
+            following,
+            followers,
+            posts,
           };
 
           const authToken = jwt.sign(payload, process.env.SECRET, {
@@ -125,17 +153,31 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { profileImage, firstName, lastName, username, _id, email } =
-          foundUser;
-
-        // Create an object that will be set as the token payload
-        const payload = {
+        const {
+          _id,
           profileImage,
           firstName,
           lastName,
           username,
           email,
+          bio,
+          following,
+          followers,
+          posts,
+        } = foundUser;
+
+        // Create an object that will be set as the token payload
+        const payload = {
           _id,
+          profileImage,
+          firstName,
+          lastName,
+          username,
+          email,
+          bio,
+          following,
+          followers,
+          posts,
         };
 
         // Create and sign the token
