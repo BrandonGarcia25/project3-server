@@ -11,18 +11,7 @@ const saltRounds = 10;
 
 // POST  /auth/signup
 router.post("/signup", (req, res, next) => {
-  const {
-    profileImage,
-    firstName,
-    lastName,
-    username,
-    email,
-    password,
-    bio,
-    following,
-    followers,
-    posts,
-  } = req.body;
+  const { firstName, lastName, username, email, password } = req.body;
 
   // Check if the email or password or username is provided as an empty string
   if (!email || !password || !username) {
@@ -60,45 +49,24 @@ router.post("/signup", (req, res, next) => {
       // Create a new user in the database
       // We return a pending promise, which allows us to chain another `then`
       User.create({
-        profileImage,
         firstName,
         lastName,
         username,
         email,
         password: hashedPassword,
-        bio,
-        following,
-        followers,
-        posts,
       })
         .then((createdUser) => {
           // Deconstruct the newly created user object to omit the password
           // We should never expose passwords publicly
-          const {
-            _id,
-            profileImage,
-            firstName,
-            lastName,
-            username,
-            email,
-            bio,
-            following,
-            followers,
-            posts,
-          } = createdUser;
+          const { _id, firstName, lastName, username, email } = createdUser;
 
           // Create a new object that doesn't expose the password
           const payload = {
             _id,
-            profileImage,
             firstName,
             lastName,
             username,
             email,
-            bio,
-            following,
-            followers,
-            posts,
           };
 
           const authToken = jwt.sign(payload, process.env.SECRET, {
@@ -156,6 +124,7 @@ router.post("/login", (req, res, next) => {
         const {
           _id,
           profileImage,
+          bannerImage,
           firstName,
           lastName,
           username,
@@ -170,6 +139,7 @@ router.post("/login", (req, res, next) => {
         const payload = {
           _id,
           profileImage,
+          bannerImage,
           firstName,
           lastName,
           username,

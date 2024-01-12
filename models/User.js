@@ -7,6 +7,11 @@ const userSchema = new Schema(
       default:
         "https://cvhrma.org/wp-content/uploads/2015/07/default-profile-photo.jpg",
     },
+    bannerImage: {
+      type: String,
+      default:
+        "https://cdn.pixabay.com/photo/2015/09/17/10/30/banner-943866_1280.jpg",
+    },
     firstName: String,
     lastName: String,
     username: { type: String, required: true, unique: true },
