@@ -7,7 +7,19 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 
-// POST - Creates a new post
+
+//Get-Read All Posts - posts/
+router.get("/",isAuthenticated,(req, res) => {
+  Post.find()
+  .then((foundPosts) => {
+    res.json(foundPosts);
+  })
+  .catch((err) => {
+    console.log(err); 
+  }); 
+}); 
+
+// POST - Creates a new post - posts/
 router.post("/", isAuthenticated, (req, res) => {
   Post.create({
     createdByUser: req.user._id,
