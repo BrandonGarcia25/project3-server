@@ -20,7 +20,7 @@ const userSchema = new Schema(
     bio: { type: String, default: "" },
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+    posts: [{ type: Schema.Types.ObjectId, ref: "Post"}],
   },
   {
     timestamps: true,
