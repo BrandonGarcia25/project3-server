@@ -7,17 +7,16 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 
-
 //Get-Read All Posts - posts/
-router.get("/",isAuthenticated,(req, res) => {
+router.get("/", isAuthenticated, (req, res) => {
   Post.find()
-  .then((foundPosts) => {
-    res.json(foundPosts);
-  })
-  .catch((err) => {
-    console.log(err); 
-  }); 
-}); 
+    .then((foundPosts) => {
+      res.json(foundPosts);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 // POST - Creates a new post - posts/
 router.post("/", isAuthenticated, (req, res) => {
@@ -45,6 +44,10 @@ router.post("/", isAuthenticated, (req, res) => {
 router.get("/:postId", isAuthenticated, (req, res) => {
   Post.findById(req.params.postId)
     .populate("createdByUser")
+    .populate({
+      path: "likes",
+      select: "_id profileImage username",
+    })
     .populate("comments")
     .then((post) => {
       const {
