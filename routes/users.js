@@ -17,6 +17,14 @@ router.get("/", (req, res, next) => {
 router.get("/:userId", (req, res, next) => {
   User.findById(req.params.userId)
     .populate("posts")
+    .populate({
+      path: "followers",
+      select: "profileImage username",
+    })
+    .populate({
+      path: "following",
+      select: "profileImage username",
+    })
     .then((foundUser) => {
       console.log("Found user ->", foundUser);
       res.status(200).json(foundUser);
@@ -51,3 +59,10 @@ router.delete("/:userId", isAuthenticated, isOwner, (req, res, next) => {
 });
 
 module.exports = router;
+
+// .populate({
+//   path: "comment",
+//   populate: {
+//     path: "user",
+//   },
+// })
