@@ -16,7 +16,13 @@ router.get("/", (req, res, next) => {
 
 router.get("/:userId", (req, res, next) => {
   User.findById(req.params.userId)
-    .populate("posts")
+    .populate({
+      path: "posts",
+      populate: {
+        path: "createdByUser",
+        select: "_id profileImage username",
+      },
+    })
     .populate({
       path: "followers",
       select: "profileImage username",
@@ -26,7 +32,6 @@ router.get("/:userId", (req, res, next) => {
       select: "profileImage username",
     })
     .then((foundUser) => {
-      console.log("Found user ->", foundUser);
       res.status(200).json(foundUser);
     })
     .catch((err) => {
