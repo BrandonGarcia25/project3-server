@@ -10,6 +10,10 @@ const Comment = require("../models/Comment");
 //Get-Read All Posts - posts/
 router.get("/", isAuthenticated, (req, res) => {
   Post.find()
+    .populate({
+      path: "createdByUser",
+      select: "_id username profileImage",
+    })
     .then((foundPosts) => {
       res.json(foundPosts);
     })
@@ -98,7 +102,6 @@ router.post("/:postId/comments", isAuthenticated, (req, res) => {
 router.put("/:postId", isAuthenticated, isOwner, (req, res) => {
   Post.findByIdAndUpdate(req.params.postId, req.body, { new: true })
     .then((updatedPost) => {
-      console.log(updatedPost);
       res.status(200).send(updatedPost);
     })
     .catch((err) => {
