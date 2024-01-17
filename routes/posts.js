@@ -52,7 +52,14 @@ router.get("/:postId", isAuthenticated, (req, res) => {
       path: "likes",
       select: "_id profileImage username",
     })
-    .populate("comments")
+    .populate({
+      path: "comments",
+      select: "_id comment",
+      populate: {
+        path:"createdByUser",
+        select: "_id profileImage username"
+      }
+    })
     .then((post) => {
       const {
         _id: postId,

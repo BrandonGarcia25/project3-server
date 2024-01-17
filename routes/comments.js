@@ -1,8 +1,6 @@
 const router = require("express").Router();
-
 const isAuthenticated = require("../middleware/isAuthenticated");
 const isOwner = require("../middleware/isOwner");
-
 const Comment = require("../models/Comment");
 
 router.put("/:commentId", isAuthenticated, isOwner, (req, res, next) => {
