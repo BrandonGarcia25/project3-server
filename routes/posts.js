@@ -56,9 +56,9 @@ router.get("/:postId", isAuthenticated, (req, res) => {
       path: "comments",
       select: "_id comment",
       populate: {
-        path:"createdByUser",
-        select: "_id profileImage username"
-      }
+        path: "createdByUser",
+        select: "_id profileImage username",
+      },
     })
     .then((post) => {
       const {

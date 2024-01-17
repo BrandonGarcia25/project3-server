@@ -22,6 +22,14 @@ router.get("/:userId", (req, res, next) => {
         path: "createdByUser",
         select: "_id profileImage username",
       },
+      populate: {
+        path: "comments",
+        select: "_id comment",
+        populate: {
+          path: "createdByUser",
+          select: "profileImage username",
+        },
+      },
     })
     .populate({
       path: "followers",
