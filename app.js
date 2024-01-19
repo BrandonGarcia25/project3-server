@@ -10,6 +10,7 @@ var authRouter = require("./routes/auth");
 var usersRouter = require("./routes/users");
 var postsRouter = require("./routes/posts");
 var commentsRouter = require("./routes/comments");
+var photoRouter = require("./routes/photo");
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
+app.use("/image-upload", photoRouter);
 
 mongoose
   .connect(process.env.MONGODB_URI)

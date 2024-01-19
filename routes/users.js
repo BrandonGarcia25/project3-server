@@ -48,8 +48,8 @@ router.get("/:userId", (req, res, next) => {
     });
 });
 
-router.put("/:userId", isAuthenticated, isOwner, (req, res, next) => {
-  User.findByIdAndUpdate(req.params.userId)
+router.put("/:userId", isAuthenticated, (req, res, next) => {
+  User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
     .then((foundUser) => {
       console.log("Found user ->", foundUser);
       res.status(200).json(foundUser);
